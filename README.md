@@ -19,6 +19,8 @@ Why? — The [other docker port](https://github.com/marked/universal-tracker/tre
   - The Node.js version to use isn't specified on the [official tracker documentation](https://wiki.archiveteam.org/index.php/Dev/Tracker), so Node.js version 6 is used because it works without errors
   - The [package.json](https://github.com/marked/universal-tracker/raw/refs/heads/docker-redisgem2/broadcaster/package.json) from the [broken docker port](https://github.com/marked/universal-tracker/raw/refs/heads/docker-redisgem2) is used because it contains working `redis` and `socket.io` package versions.
   - An Upstart configuration file is provided, but it is not used to start the container
+### Target
+  - This uses a dockerized target version from [Fusl/ateam-airsync](https://github.com/Fusl/ateam-airsync), the official ArchiveTeam documentation for setting up a target from scratch is available [here](https://wiki.archiveteam.org/index.php/Dev/Staging). Make sure to read the documentation on [Fusl/ateam-airsync](https://github.com/Fusl/ateam-airsync) and adjust environment variables accordingly.
 
 ## Running this project
 *If you have docker compose v1 (`docker-compose`), use that instead of `docker compose` (docker compose v2). Compose v1 compatibility has not been tested, so [YMMV](https://en.wiktionary.org/wiki/YMMV).*
