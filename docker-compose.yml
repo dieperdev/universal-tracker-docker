@@ -30,5 +30,21 @@ services:
     depends_on:
       - redis
 
+  target:
+    image: atdr.meo.ws/fusl/ateam-airsync:latest
+    environment:
+      - MAX_CONN=18
+      - PORT=873
+      - DISK_LIMIT=50
+      - DISK_HARD_LIMIT=80
+    expose:
+      - "873"
+    volumes:
+      - ./target_data:/data
+    networks:
+      - universal_tracker
+    depends_on:
+      - redis
+
 networks:
   universal_tracker: {}
