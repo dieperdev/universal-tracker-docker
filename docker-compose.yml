@@ -1,0 +1,34 @@
+services:
+  redis:
+    image: redis:8.2.3-alpine
+    expose:
+      - "6379"
+    volumes:
+      - ./redis_data:/data
+    networks:
+      - universal_tracker
+
+  tracker:
+    build:
+      context: .
+      dockerfile: tracker.Dockerfile
+    ports:
+      - "8070:80"
+    networks:
+      - universal_tracker
+    depends_on:
+      - redis
+
+  broadcaster:
+    build:
+      context: .
+      dockerfile: broadcaster.Dockerfile
+    expose:
+      - "80"
+    networks:
+      - universal_tracker
+    depends_on:
+      - redis
+
+networks:
+  universal_tracker: {}
