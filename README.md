@@ -36,3 +36,8 @@ When running your custom (or prebuilt) grab container, you should change all men
 
 ## Extras
 If you want to configure universal-tracker further (clearing out old claims, log flushing, and reducing Passenger memory usage), follow the instructions after the [claims section](https://wiki.archiveteam.org/index.php/Dev/Tracker#Claims) on the official tracker documentation.
+
+To run your custom grab image, uncomment lines 49-62 in `docker-compose.yml` and replace the information necessary.
+
+## License
+The [official universal-tracker](https://github.com/ArchiveTeam/universal-tracker) repository doesn't include a `LICENSE` file. One may be added soon though.
