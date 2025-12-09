@@ -13,7 +13,7 @@ services:
       context: .
       dockerfile: tracker.Dockerfile
     ports:
-      - "8070:80"
+      - "8080:80"
     networks:
       - universal_tracker
     depends_on:
@@ -31,7 +31,7 @@ services:
       - redis
 
   target:
-    image: atdr.meo.ws/fusl/ateam-airsync:latest
+    image: atdr.meo.ws/fusl/ateam-airsync
     environment:
       - MAX_CONN=18
       - PORT=873
@@ -47,7 +47,7 @@ services:
       - redis
 
   # grab:
-  #   image: <your-grab-image:latest>
+  #   image: <your-grab-image>
   #   container_name: <your-grab-container-name>
   #   entrypoint: ["run-pipeline3", "--disable-web-server", "pipeline.py", "--concurrent", "<concurrency between 1 and 20 (both numbers inclusive)>", "<your nickname to appear on the tracker>"]
   #   logging:
