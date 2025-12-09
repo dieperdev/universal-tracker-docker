@@ -5,6 +5,8 @@ This repository contains a docker port of the ArchiveTeam [universal-tracker](ht
 Why? — The [other docker port](https://github.com/marked/universal-tracker/tree/docker-redisgem2) on the [official tracker documentation](https://wiki.archiveteam.org/index.php/Dev/Tracker) doesn't work (it throws Ruby errors while parsing page content).
 
 ## How this differs from the original universal-tracker
+### Redis
+  - The [official tracker documentation](https://wiki.archiveteam.org/index.php/Dev/Tracker) doesn't pin Redis to a specific version and instead pulls from the latest stable release. This repository uses a [Redis alpine image pinned to 8.2.3](https://hub.docker.com/layers/library/redis/8.2.3-alpine), which is *almost* the latest release, at the time of writing.
 ### Tracker
   - Use `bash` to interact with the tracker terminal, not `sh`
   - `source /usr/local/rvm/scripts/rvm` must be ran in the terminal session before you interact with Ruby (if it hasn't been ran in the session already). This is a minor inconvenience but it's likely die to the way `rvm` is installed.
