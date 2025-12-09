@@ -22,6 +22,9 @@ Why? — The [other docker port](https://github.com/marked/universal-tracker/tre
 ### Target
   - This uses a dockerized target version from [Fusl/ateam-airsync](https://github.com/Fusl/ateam-airsync), the official ArchiveTeam documentation for setting up a target from scratch is available [here](https://wiki.archiveteam.org/index.php/Dev/Staging). Make sure to read the documentation on [Fusl/ateam-airsync](https://github.com/Fusl/ateam-airsync) and adjust environment variables accordingly.
 
+## Things to note
+When running your custom (or prebuilt) grab container, you should change all mentions of `legacy-api.arpa.li` and `tracker.archiveteam.org` (including but not limited to `pipeline.py` and `*.lua`) to the name of the tracker service in `docker-compose.yml`. Not changing this could mess with the data on the real tracker and get you banned.
+
 ## Running this project
 *If you have docker compose v1 (`docker-compose`), use that instead of `docker compose` (docker compose v2). Compose v1 compatibility has not been tested, so [YMMV](https://en.wiktionary.org/wiki/YMMV).*
 1. Clone this repository
@@ -32,4 +35,4 @@ Why? — The [other docker port](https://github.com/marked/universal-tracker/tre
 6. When you are ready to shutdown universal-tracker, run `docker compose down`
 
 ## Extras
-If you want to configure universal-tracker further, follow the instructions after the [claims section](https://wiki.archiveteam.org/index.php/Dev/Tracker#Claims) on the official tracker documentation.
+If you want to configure universal-tracker further (clearing out old claims, log flushing, and reducing Passenger memory usage), follow the instructions after the [claims section](https://wiki.archiveteam.org/index.php/Dev/Tracker#Claims) on the official tracker documentation.
