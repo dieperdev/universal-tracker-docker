@@ -2,14 +2,25 @@
 
 This repository contains a docker port of the ArchiveTeam [universal-tracker](https://github.com/ArchiveTeam/universal-tracker).
 
-Why? — The [other docker port](https://github.com/marked/universal-tracker/tree/docker-redisgem2) on the [official tracker documentation](https://wiki.archiveteam.org/index.php/Dev/Tracker) doesn't work (it throws Ruby errors while parsing page content).
+Why? The [other docker port](https://github.com/marked/universal-tracker/tree/docker-redisgem2) on the [official tracker documentation](https://wiki.archiveteam.org/index.php/Dev/Tracker) doesn't work (it throws Ruby errors while parsing page content).
+
+## Table of contents
+- [How this differs from the original universal-tracker](#how-this-differs-from-the-original-universal-tracker)
+  - [Redis](#redis)
+  - [Tracker](#tracker)
+  - [Broadcaster](#broadcaster)
+  - [Target](#target)
+- [Things to note](#things-to-note)
+- [Running this project](#running-this-project)
+- [Extras](#extras)
+- [License](#license)
 
 ## How this differs from the original universal-tracker
 ### Redis
   - The [official tracker documentation](https://wiki.archiveteam.org/index.php/Dev/Tracker) doesn't pin Redis to a specific version and instead pulls from the latest stable release. This repository uses a [Redis alpine image pinned to 8.2.3](https://hub.docker.com/layers/library/redis/8.2.3-alpine), which is *almost* the latest release, at the time of writing.
 ### Tracker
   - Use `bash` to interact with the tracker terminal, not `sh`
-  - `source /usr/local/rvm/scripts/rvm` must be ran in the terminal session before you interact with Ruby (if it hasn't been ran in the session already). This is a minor inconvenience but it's likely die to the way `rvm` is installed.
+  - `source /usr/local/rvm/scripts/rvm` must be ran in the terminal session before you interact with Ruby (if it hasn't been ran in the session already). This is a minor inconvenience but it's likely due to the way `rvm` is installed.
   - Ruby 2.2.2 is specifically installed (the version to use is not specified in the official tracker documentation) because other Ruby versions caused problems and 2.2.2 was supported by all packages
   - `rvm use 2.2.2` is ran after `rvm install 2.2.2`, it's not needed but makes sure Ruby 2.2.2 is used.
   - bundler (v. `1.17.3`), rack (v. `2.1.4.4`), and passenger (v. `6.0.22`) are installed because they were compatible with Ruby 2.2.2 (the versions of these packages to use are not specified in the official tracker documentation)
@@ -26,6 +37,13 @@ Why? — The [other docker port](https://github.com/marked/universal-tracker/tre
 
 ## Things to note
 When running your custom (or prebuilt) grab container, you should change all mentions of `legacy-api.arpa.li` and `tracker.archiveteam.org` (including but not limited to `pipeline.py` and `*.lua`) to the name of the tracker service in `docker-compose.yml`. Not changing this could mess with the data on the real tracker and get you banned.
+
+The open source universal-tracker does not support backfeed and multi-item claiming. To disable multi-item claiming (so you can test a -grab project locally), do the following to your `pipeline.py`. The telegram-grab is used as an example:
+Reference: [lines 352-354](https://github.com/ArchiveTeam/telegram-grab/blob/master/pipeline.py#L352-L354) of the `pipeline.py` script from [telegram-grab](https://github.com/ArchiveTeam/telegram-grab)
+1. Remove `multi={}/` from the `GetItemFromTracker` function (leave the trailing slash `/`)
+2. Remove `, MULTI_ITEM_SIZE` from the `GetItemFromTracker` function (no trailing comma `,` should be left in the `format` function)
+
+Backfeed functions will refuse to work (not implemented in the open source universal-tracker) and 404 errors will be shown in the tracker when backfeed requests are received.
 
 ## Running this project
 *If you have docker compose v1 (`docker-compose`), use that instead of `docker compose` (docker compose v2). Compose v1 compatibility has not been tested, so [YMMV](https://en.wiktionary.org/wiki/YMMV).*
