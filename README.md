@@ -11,6 +11,9 @@ Why? The [other docker port](https://github.com/marked/universal-tracker/tree/do
   - [Broadcaster](#broadcaster)
   - [Target](#target)
 - [Things to note](#things-to-note)
+  - [Tracker URL](#tracker-url)
+  - [stdin: is not a tty](#stdin-is-not-a-tty)
+  - [Backfeed and multi-item claiming](#backfeed-and-multi-item-claiming)
 - [Running this project](#running-this-project)
 - [Extras](#extras)
 - [License](#license)
@@ -36,8 +39,17 @@ Why? The [other docker port](https://github.com/marked/universal-tracker/tree/do
   - This uses a dockerized target version from [Fusl/ateam-airsync](https://github.com/Fusl/ateam-airsync), the official ArchiveTeam documentation for setting up a target from scratch is available [here](https://wiki.archiveteam.org/index.php/Dev/Staging). Make sure to read the documentation on [Fusl/ateam-airsync](https://github.com/Fusl/ateam-airsync) and adjust environment variables accordingly.
 
 ## Things to note
+### Tracker URL
 When running your custom (or prebuilt) grab container, you should change all mentions of `legacy-api.arpa.li` and `tracker.archiveteam.org` (including but not limited to `pipeline.py` and `*.lua`) to the name of the tracker service in `docker-compose.yml`. Not changing this could mess with the data on the real tracker and get you banned.
 
+<hr />
+
+### stdin: is not a tty
+You may get a message like `stdin: is not a tty` when running the tracker. It is normal and the tracker will still run.
+
+<hr />
+
+### Backfeed and multi-item claiming
 The open source universal-tracker does not support backfeed and multi-item claiming. To disable multi-item claiming (so you can test a -grab project locally), do the following to your `pipeline.py`. The telegram-grab is used as an example:
 Reference: [lines 352-354](https://github.com/ArchiveTeam/telegram-grab/blob/master/pipeline.py#L352-L354) of the `pipeline.py` script from [telegram-grab](https://github.com/ArchiveTeam/telegram-grab)
 1. Remove `multi={}/` from the `GetItemFromTracker` function (leave the trailing slash `/`)
